@@ -5,9 +5,9 @@ var artifactsDir = Directory("./artifacts");
 
 IEnumerable<FilePath> FindSolutions()
 {
-    return GetFiles("./*.sln")
-        .Concat(GetFiles("./src/*.sln"))
-        .Concat(GetFiles("./**/*.sln"))
+    return GetFiles("./*.slnx")
+        .Concat(GetFiles("./src/*.slnx"))
+        .Concat(GetFiles("./**/*.slnx"))
         .Distinct();
 }
 
@@ -24,7 +24,7 @@ Task("Restore")
     var solutions = FindSolutions().ToList();
     if (!solutions.Any())
     {
-        Information("No solution (*.sln) found yet. Skipping restore.");
+        Information("No solution (*.slnx) found yet. Skipping restore.");
         return;
     }
 
@@ -42,7 +42,7 @@ Task("Build")
     var solutions = FindSolutions().ToList();
     if (!solutions.Any())
     {
-        Information("No solution (*.sln) found yet. Skipping build.");
+        Information("No solution (*.slnx) found yet. Skipping build.");
         return;
     }
 
@@ -64,7 +64,7 @@ Task("Test")
     var solutions = FindSolutions().ToList();
     if (!solutions.Any())
     {
-        Information("No solution (*.sln) found yet. Skipping tests.");
+        Information("No solution (*.slnx) found yet. Skipping tests.");
         return;
     }
 
@@ -87,7 +87,7 @@ Task("Pack")
     var solutions = FindSolutions().ToList();
     if (!solutions.Any())
     {
-        Information("No solution (*.sln) found yet. Skipping pack.");
+        Information("No solution (*.slnx) found yet. Skipping pack.");
         return;
     }
 
