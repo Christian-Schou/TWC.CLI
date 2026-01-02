@@ -1,3 +1,5 @@
+using Twc.Cli.Shared;
+
 namespace Twc.Cli.Sdk;
 
 /// <summary>
@@ -17,10 +19,7 @@ public readonly record struct PluginId
     /// <exception cref="ArgumentException">Thrown when <paramref name="value"/> is null, empty, or whitespace.</exception>
     public PluginId(string? value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException("Plugin identifier cannot be null, empty, or whitespace.", nameof(value));
-
-        Value = value;
+        Value = Guard.NotNullOrWhiteSpace(value, nameof(value));
     }
 
     /// <summary>
