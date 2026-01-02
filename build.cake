@@ -5,6 +5,7 @@ var configuration = Argument("configuration", "Release");
 var dotnetPath = EnvironmentVariable("DOTNET_PATH") ?? "dotnet";
 
 var artifactsDir = Directory("./artifacts");
+var artifactsDirPath = artifactsDir.Path.FullPath;
 
 // NuGet publish settings
 var nugetSource = Argument("nugetSource", EnvironmentVariable("NUGET_SOURCE") ?? "https://api.nuget.org/v3/index.json");
@@ -164,13 +165,13 @@ Task("Publish")
         $"Twc.Cli.Sdk.{packageVersion}.nupkg",
     };
 
-    var packages = GetFiles(artifactsDir + "/**/*.nupkg")
+    var packages = GetFiles(artifactsDirPath + "/**/*.nupkg")
         .Where(p => !p.FullPath.EndsWith(".symbols.nupkg", StringComparison.OrdinalIgnoreCase))
         .Where(p => expected.Contains(p.GetFilename().ToString()))
         .ToList();
 
     if (!packages.Any())
-        throw new Exception($"No expected .nupkg files found in {artifactsDir}. Expected: {string.Join(", ", expected)}");
+        throw new Exception($"No expected .nupkg files found in {artifactsDirPath}. Expected: {string.Join(", ", expected)}");
 
     Information($"Publishing {packages.Count} package(s) to {nugetSource}...");
 
