@@ -1,0 +1,31 @@
+<Solution>
+  <Folder Name="/Solution Items/" />
+  <Folder Name="/Solution Items/Cake/">
+    <File Path="build.cake" />
+    <File Path="build.ps1" />
+    <File Path="build.sh" />
+  </Folder>
+  <Folder Name="/Solution Items/GitHub/">
+    <File Path=".github\workflows\ci.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Twc.Cli.Configuration/Twc.Cli.Configuration.csproj" />
+    <Project Path="src/Twc.Cli.Framework/Twc.Cli.Framework.csproj" />
+    <Project Path="src/Twc.Cli.Host/Twc.Cli.Host.csproj" />
+    <Project Path="src/Twc.Cli.Sdk/Twc.Cli.Sdk.csproj" />
+    <Project Path="src/Twc.Cli.Shared/Twc.Cli.Shared.csproj" />
+  </Folder>
+  <Folder Name="/src/Updates/">
+    <Project Path="src/Twc.Cli.Updates.Providers.AzureDevOps/Twc.Cli.Updates.Providers.AzureDevOps.csproj" />
+    <Project Path="src/Twc.Cli.Updates.Providers.Gitea/Twc.Cli.Updates.Providers.Gitea.csproj" />
+    <Project Path="src/Twc.Cli.Updates.Providers.GitHub/Twc.Cli.Updates.Providers.GitHub.csproj" />
+    <Project Path="src/Twc.Cli.Updates.Providers.GitLab/Twc.Cli.Updates.Providers.GitLab.csproj" />
+    <Project Path="src/Twc.Cli.Updates/Twc.Cli.Updates.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Twc.Cli.Configuration.Tests/Twc.Cli.Configuration.Tests.csproj" />
+    <Project Path="tests/Twc.Cli.Framework.Tests/Twc.Cli.Framework.Tests.csproj" />
+    <Project Path="tests/Twc.Cli.Sdk.Tests/Twc.Cli.Sdk.Tests.csproj" />
+    <Project Path="tests/Twc.Cli.Updates.Tests/Twc.Cli.Updates.Tests.csproj" />
+  </Folder>
+</Solution>
