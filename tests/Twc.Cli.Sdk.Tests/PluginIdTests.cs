@@ -33,3 +33,4 @@ public sealed class PluginIdTests
         Should.Throw<ArgumentException>(() => new PluginId(value));
     }
 }
+
