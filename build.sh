@@ -3,6 +3,13 @@ set -euo pipefail
 
 # Cake bootstrapper (dotnet tool)
 
-dotnet tool restore
+DOTNET_PATH="$(command -v dotnet || true)"
+if [[ -z "${DOTNET_PATH}" ]]; then
+  echo "dotnet not found on PATH" >&2
+  exit 1
+fi
 
-dotnet cake build.cake "$@"
+# Run all dotnet invocations via the resolved dotnet path so we don't rely on /usr/local/bin/dotnet.
+"${DOTNET_PATH}" tool restore
+
+"${DOTNET_PATH}" cake build.cake "$@"
