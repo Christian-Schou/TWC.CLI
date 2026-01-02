@@ -12,7 +12,7 @@ var nugetSource = Argument("nugetSource", EnvironmentVariable("NUGET_SOURCE") ??
 var nugetApiKey = Argument("nugetApiKey", EnvironmentVariable("NUGET_API_KEY") ?? string.Empty);
 
 // Versioning (tag-driven)
-var explicitVersion = Argument("version", EnvironmentVariable("VERSION") ?? string.Empty);
+var explicitVersion = Argument("packageVersion", EnvironmentVariable("PACKAGE_VERSION") ?? EnvironmentVariable("VERSION") ?? string.Empty);
 var gitRefName = EnvironmentVariable("GITHUB_REF_NAME") ?? string.Empty; // e.g. v1.2.3
 
 string? NormalizeVersion(string? versionOrTag)
@@ -130,12 +130,13 @@ Task("Pack")
     EnsureDirectoryExists(artifactsDir);
 
     if (string.IsNullOrWhiteSpace(packageVersion))
-        throw new Exception("Missing package version. On CI, publish runs from tags like 'v1.2.3'. Locally, pass --version=1.2.3.");
+        throw new Exception("Missing package version. On CI, publish runs from tags like 'v1.2.3'. Locally, pass --packageVersion=1.2.3.");
 
     foreach (var proj in packProjects)
     {
-        Information($"Packing {proj.GetFilename()} ({configuration}) version={packageVersion}...");
-        DotNetPack(proj.Path.FullPath, new DotNetPackSettings
+        var projPath = proj.Path;
+        Information($"Packing {projPath.GetFilename()} ({configuration}) version={packageVersion}...");
+        DotNetPack(projPath.FullPath, new DotNetPackSettings
         {
             Configuration = configuration,
             NoBuild = true,
