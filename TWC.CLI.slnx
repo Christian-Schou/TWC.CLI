@@ -1,4 +1,13 @@
 <Solution>
+  <Folder Name="/Solution Items/" />
+  <Folder Name="/Solution Items/Cake/">
+    <File Path="build.cake" />
+    <File Path="build.ps1" />
+    <File Path="build.sh" />
+  </Folder>
+  <Folder Name="/Solution Items/GitHub/">
+    <File Path=".github\workflows\ci.yml" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Twc.Cli.Configuration/Twc.Cli.Configuration.csproj" />
     <Project Path="src/Twc.Cli.Framework/Twc.Cli.Framework.csproj" />
