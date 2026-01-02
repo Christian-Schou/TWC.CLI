@@ -24,10 +24,12 @@ public static class HostConfigModule
         if (createDefaultCore is null) throw new ArgumentNullException(nameof(createDefaultCore));
         if (promptForCore is null) throw new ArgumentNullException(nameof(promptForCore));
 
+        var commandType = typeof(ConfigWizardCommand<TCore>);
+
         // Command type (constructor-injected)
         builder.Services.AddSingleton<Func<string, TCore>>(createDefaultCore);
         builder.Services.AddSingleton<Func<string, TCore>>(promptForCore);
-        builder.Services.AddTransient<ConfigWizardCommand<TCore>>(sp =>
+        builder.Services.AddTransient(commandType, sp =>
         {
             var pluginCtx = sp.GetService<PluginContext>();
             var defaultFactory = sp.GetRequiredService<Func<string, TCore>>();
@@ -38,9 +40,12 @@ public static class HostConfigModule
         configurator.AddBranch("config", b =>
         {
             b.SetDescription("Configuration profile commands");
-            b.SetDefaultCommand<ConfigWizardCommand<TCore>>();
 
-            b.AddCommand<ConfigWizardCommand<TCore>>("create")
+            // Use the non-generic overloads to avoid any reflection-based type resolution issues
+            // around closed generic command types.
+            b.SetDefaultCommand(commandType);
+
+            b.AddCommand("create", commandType)
                 .WithDescription("Interactively generate a JSON profile (wizard).")
                 .WithExample("config", "create", "--output", "<file>.json");
         });
