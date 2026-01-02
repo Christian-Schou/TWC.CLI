@@ -18,4 +18,18 @@ public sealed class PluginIdTests
 
         id.ToString().ShouldBe("hello");
     }
+
+    /// <summary>
+    /// Verifies the constructor rejects null/empty/whitespace identifiers.
+    /// </summary>
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("\t")]
+    [InlineData("\r\n")]
+    public void Constructor_throws_for_null_empty_or_whitespace(string? value)
+    {
+        Should.Throw<ArgumentException>(() => new PluginId(value));
+    }
 }
