@@ -135,7 +135,7 @@ Task("Pack")
     foreach (var proj in packProjects)
     {
         Information($"Packing {proj.GetFilename()} ({configuration}) version={packageVersion}...");
-        DotNetPack(proj.FullPath, new DotNetPackSettings
+        DotNetPack(proj.Path.FullPath, new DotNetPackSettings
         {
             Configuration = configuration,
             NoBuild = true,
