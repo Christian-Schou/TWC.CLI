@@ -5,35 +5,26 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+  build-test:
+    name: Build + Test
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Setup .NET (global.json)
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
 
-      - name: Restore dotnet tools
+      - name: Restore tools
         run: dotnet tool restore
 
-      - name: Run Cake (CI)
-        shell: bash
-        if: runner.os != 'Windows'
-        run: |
-          chmod +x ./build.sh
-          ./build.sh --target=CI
+      - name: Run Cake CI
+        run: ./build.sh --target=CI
 
-      - name: Run Cake (CI) (Windows)
-        shell: pwsh
-        if: runner.os == 'Windows'
-        run: |
-          ./build.ps1 -Target CI

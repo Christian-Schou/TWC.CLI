@@ -1,7 +1,7 @@
 namespace Twc.Cli.Sdk;
 
 /// <summary>
-/// Plugin metadata declared by a plugin package.
+///     Plugin metadata declared by a plugin package.
 /// </summary>
 /// <param name="Id">The unique plugin identifier.</param>
 /// <param name="DisplayName">A human friendly name.</param>
@@ -12,4 +12,3 @@ public sealed record PluginMetadata(
     PluginDisplayName DisplayName,
     SemanticVersion Version,
     VersionRange RequiresHostVersionRange);
-

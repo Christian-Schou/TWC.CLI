@@ -3,27 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 namespace Twc.Cli.Sdk;
 
 /// <summary>
-/// A minimal semantic version implementation (MAJOR.MINOR.PATCH).
+///     A minimal semantic version implementation (MAJOR.MINOR.PATCH).
 /// </summary>
 public readonly record struct SemanticVersion : IComparable<SemanticVersion>
 {
     /// <summary>
-    /// Major version.
-    /// </summary>
-    public int Major { get; }
-
-    /// <summary>
-    /// Minor version.
-    /// </summary>
-    public int Minor { get; }
-
-    /// <summary>
-    /// Patch version.
-    /// </summary>
-    public int Patch { get; }
-
-    /// <summary>
-    /// Creates a semantic version.
+    ///     Creates a semantic version.
     /// </summary>
     public SemanticVersion(int major, int minor, int patch)
     {
@@ -37,7 +22,34 @@ public readonly record struct SemanticVersion : IComparable<SemanticVersion>
     }
 
     /// <summary>
-    /// Parses a semantic version string in the form <c>MAJOR.MINOR.PATCH</c>.
+    ///     Major version.
+    /// </summary>
+    public int Major { get; }
+
+    /// <summary>
+    ///     Minor version.
+    /// </summary>
+    public int Minor { get; }
+
+    /// <summary>
+    ///     Patch version.
+    /// </summary>
+    public int Patch { get; }
+
+    /// <inheritdoc />
+    public int CompareTo(SemanticVersion other)
+    {
+        var major = Major.CompareTo(other.Major);
+        if (major != 0) return major;
+
+        var minor = Minor.CompareTo(other.Minor);
+        if (minor != 0) return minor;
+
+        return Patch.CompareTo(other.Patch);
+    }
+
+    /// <summary>
+    ///     Parses a semantic version string in the form <c>MAJOR.MINOR.PATCH</c>.
     /// </summary>
     public static SemanticVersion Parse(string value)
     {
@@ -48,7 +60,7 @@ public readonly record struct SemanticVersion : IComparable<SemanticVersion>
     }
 
     /// <summary>
-    /// Tries to parse a semantic version string in the form <c>MAJOR.MINOR.PATCH</c>.
+    ///     Tries to parse a semantic version string in the form <c>MAJOR.MINOR.PATCH</c>.
     /// </summary>
     public static bool TryParse([NotNullWhen(true)] string? value, out SemanticVersion version)
     {
@@ -69,37 +81,40 @@ public readonly record struct SemanticVersion : IComparable<SemanticVersion>
     }
 
     /// <inheritdoc />
-    public int CompareTo(SemanticVersion other)
+    public override string ToString()
     {
-        var major = Major.CompareTo(other.Major);
-        if (major != 0) return major;
-
-        var minor = Minor.CompareTo(other.Minor);
-        if (minor != 0) return minor;
-
-        return Patch.CompareTo(other.Patch);
+        return $"{Major}.{Minor}.{Patch}";
     }
 
-    /// <inheritdoc />
-    public override string ToString() => $"{Major}.{Minor}.{Patch}";
+    /// <summary>
+    ///     Returns true when <paramref name="left" /> is greater than <paramref name="right" />.
+    /// </summary>
+    public static bool operator >(SemanticVersion left, SemanticVersion right)
+    {
+        return left.CompareTo(right) > 0;
+    }
 
     /// <summary>
-    /// Returns true when <paramref name="left"/> is greater than <paramref name="right"/>.
+    ///     Returns true when <paramref name="left" /> is less than <paramref name="right" />.
     /// </summary>
-    public static bool operator >(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) > 0;
+    public static bool operator <(SemanticVersion left, SemanticVersion right)
+    {
+        return left.CompareTo(right) < 0;
+    }
 
     /// <summary>
-    /// Returns true when <paramref name="left"/> is less than <paramref name="right"/>.
+    ///     Returns true when <paramref name="left" /> is greater than or equal to <paramref name="right" />.
     /// </summary>
-    public static bool operator <(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) < 0;
+    public static bool operator >=(SemanticVersion left, SemanticVersion right)
+    {
+        return left.CompareTo(right) >= 0;
+    }
 
     /// <summary>
-    /// Returns true when <paramref name="left"/> is greater than or equal to <paramref name="right"/>.
+    ///     Returns true when <paramref name="left" /> is less than or equal to <paramref name="right" />.
     /// </summary>
-    public static bool operator >=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) >= 0;
-
-    /// <summary>
-    /// Returns true when <paramref name="left"/> is less than or equal to <paramref name="right"/>.
-    /// </summary>
-    public static bool operator <=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) <= 0;
+    public static bool operator <=(SemanticVersion left, SemanticVersion right)
+    {
+        return left.CompareTo(right) <= 0;
+    }
 }

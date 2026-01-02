@@ -3,22 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 namespace Twc.Cli.Sdk;
 
 /// <summary>
-/// A minimal semantic version range used to declare compatible host versions.
+///     A minimal semantic version range used to declare compatible host versions.
 /// </summary>
 public sealed record VersionRange
 {
     /// <summary>
-    /// Inclusive minimum host version.
-    /// </summary>
-    public SemanticVersion? MinInclusive { get; }
-
-    /// <summary>
-    /// Exclusive maximum host version.
-    /// </summary>
-    public SemanticVersion? MaxExclusive { get; }
-
-    /// <summary>
-    /// Creates a version range.
+    ///     Creates a version range.
     /// </summary>
     /// <exception cref="ArgumentException">Thrown when the range is invalid.</exception>
     public VersionRange(SemanticVersion? minInclusive, SemanticVersion? maxExclusive)
@@ -31,12 +21,22 @@ public sealed record VersionRange
     }
 
     /// <summary>
-    /// Returns a range that matches any host version.
+    ///     Inclusive minimum host version.
     /// </summary>
-    public static VersionRange Any { get; } = new(minInclusive: null, maxExclusive: null);
+    public SemanticVersion? MinInclusive { get; }
 
     /// <summary>
-    /// Checks if a host version is supported by this range.
+    ///     Exclusive maximum host version.
+    /// </summary>
+    public SemanticVersion? MaxExclusive { get; }
+
+    /// <summary>
+    ///     Returns a range that matches any host version.
+    /// </summary>
+    public static VersionRange Any { get; } = new(null, null);
+
+    /// <summary>
+    ///     Checks if a host version is supported by this range.
     /// </summary>
     public bool Contains(SemanticVersion hostVersion)
     {
@@ -50,23 +50,34 @@ public sealed record VersionRange
     }
 
     /// <summary>
-    /// Parses a range in one of these forms:
-    /// <list type="bullet">
-    /// <item><description><c>*</c> (any)</description></item>
-    /// <item><description><c>&gt;=1.2.3</c></description></item>
-    /// <item><description><c>&gt;=1.2.3 &lt;2.0.0</c></description></item>
-    /// </list>
+    ///     Parses a range in one of these forms:
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <description><c>*</c> (any)</description>
+    ///         </item>
+    ///         <item>
+    ///             <description>
+    ///                 <c>&gt;=1.2.3</c>
+    ///             </description>
+    ///         </item>
+    ///         <item>
+    ///             <description>
+    ///                 <c>&gt;=1.2.3 &lt;2.0.0</c>
+    ///             </description>
+    ///         </item>
+    ///     </list>
     /// </summary>
     public static VersionRange Parse(string value)
     {
         if (!TryParse(value, out var range))
-            throw new FormatException($"Invalid version range '{value}'. Expected '*', '>=x.y.z', or '>=x.y.z <a.b.c'.");
+            throw new FormatException(
+                $"Invalid version range '{value}'. Expected '*', '>=x.y.z', or '>=x.y.z <a.b.c'.");
 
         return range;
     }
 
     /// <summary>
-    /// Tries to parse a host compatibility range.
+    ///     Tries to parse a host compatibility range.
     /// </summary>
     public static bool TryParse([NotNullWhen(true)] string? value, [NotNullWhen(true)] out VersionRange? range)
     {
