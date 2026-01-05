@@ -2,7 +2,11 @@
 
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/Christian-Schou/TWC.CLI?utm_source=oss&utm_medium=github&utm_campaign=Christian-Schou%2FTWC.CLI&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
-A .NET 10 CLI framework built on Spectre.Console + Spectre.Cli.
+A .NET 10 CLI framework built on Spectre.Console + Spectre.Console.Cli.
+
+## Documentation
+
+Developer docs live in [`/docs`](./docs/README.md).
 
 ## Goals
 - Provide a reusable host pipeline (DI, logging, consistent UX)
